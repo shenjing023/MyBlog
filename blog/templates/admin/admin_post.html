@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LW|Blog-后台管理-文章</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css">
+    <style>
+        .table-hover>tbody>tr:hover>td,
+        .table-hover>tbody>tr:hover>th {
+            background-color: #227d99;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LW-Blog</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ url_for('home') }}">博客</a>
+                    </li>
+                    <li class="active">
+                        <a href="{{ url_for('post_management') }}">文章管理</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('category_management') }}">分类管理</a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+
+        <!-- Main component for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <br>
+            <br>
+            <a href="{{ url_for('post_new') }}" class="btn btn-primary btn-lg active" role="button">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 创建文章
+            </a>
+            <br>
+            <br>
+
+            <div class="table-responsive">
+                <table id="table"></table>
+            </div>
+
+        </div>
+
+
+    </div>
+    <!-- /container -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <script type="text/javascript">
+        function add_or_edit_post(){
+            
+        }
+    </script>
+    <!-- table按钮与点击事件 -->
+    <script type="text/javascript">
+        window.operateEvents={
+            'click .RoleOfdelete':function(e,value,row,index){
+                $.ajax({
+                    url:"{{ url_for('post_delete') }}",
+                    type:"post",
+                    data:{
+                        'id':row.id
+                    },
+                    dataType:'json',
+                    success:function(data){
+                        $("#table").bootstrapTable(
+                            'refresh',
+                            {
+                                url:'{{ url_for("post_data") }}'
+                            }
+                        );
+                    },
+                    error:function(a,b,c){
+                        alert('Error:',b);
+                    }
+                });
+            },
+            'click .RoleOfedit':function(e,value,row,index){
+                var url="{{ url_for('post_edit',post_id='') }}"+row.id;
+                window.location.href=url;
+            }
+        };
+    </script>
+    <!-- 初始化table -->
+    <script type="text/javascript">
+        $(function(){
+            $('#table').bootstrapTable({
+                url:'{{ url_for("post_data") }}',
+                dataType:"json",
+                pagination:true,    //前端处理分页
+                singleSelect:true,
+                search:true,
+                striped:true,
+                cache:false,
+                pageNumber:1,
+                pageSize:10,
+                pageList:[10,20,50,100],
+                strictSearch:true,
+                clickToSelect:true,
+                uniqueId:"id",
+                cardView:false,
+                detailView:false,
+                sidePagination:"server",
+                columns:[
+                    {
+                        field:'id',
+                        title:'id',
+                        width:10,
+                        visible:false
+                    },
+                    {
+                        field:'title',
+                        title:'博文标题',
+                        width:500
+                    },
+                    {
+                        field:'category',
+                        title:'分类',
+                        width:150
+                    },
+                    {
+                        field:'publish_date',
+                        title:'发表时间',
+                        width:150
+                    },
+                    {
+                        field:'edit',
+                        title:"编辑",
+                        width:100,
+                        events:operateEvents,
+                        formatter:function(value,row,index){
+                            return '<button type="button" class="RoleOfedit btn btn-primary btn-sm">\
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>\
+                                    </button>'
+                        }
+                    },
+                    {
+                        field:'delete',
+                        title:'删除',
+                        width:100,
+                        events:operateEvents,
+                        formatter:function(value,row,index){
+                            return '<button type="button" class="RoleOfdelete btn btn-primary btn-sm">\
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>\
+                                    </button>'
+                        }
+                    }
+                    ]
+            });
+        });
+    </script>
+</body>
+
+</html>

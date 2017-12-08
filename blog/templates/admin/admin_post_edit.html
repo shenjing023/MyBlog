@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LW|Blog-后台管理-编辑文章</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/bootstrap-tokenfield/0.12.0/css/bootstrap-tokenfield.css" rel="stylesheet">
+    <!--editormd -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/editormd.min.css') }}">
+
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LW-Blog</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ url_for('home') }}">博客</a>
+                    </li>
+                    <li class="active">
+                        <a href="{{ url_for('post_management') }}">文章管理</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('category_management') }}">分类管理</a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+
+        <!-- Main component for a primary marketing message or call to action -->
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <div class="edit_article">
+            <form action="" method="post" class="form" role="form">
+                {{ form.hidden_tag() }}
+                {{ form.id(type="hidden",id="post_id") }}
+                <div class="form-group  required">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">文章标题</span>
+                        {{ form.title(id="title",class="form-control") }}
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">文章摘要</span>
+                        {{ form.brief(id="brief",class="form-control") }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            {{ form.category(id="category", class="form-control", placeholder=form.category.label.text ) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.tags(type="text", class="token-input ui-autocomplete-input", id="tokenfield", autocomplete="off", placeholder=form.tags.label.text) }}
+                        </div>
+                    </div>
+                </div>
+                <div id="editormd-md" class="form-control">
+                    {{ form.body(class="form-control",style="display:none;") }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+    <!-- /container -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-tokenfield/0.12.0/bootstrap-tokenfield.min.js"></script>
+    <!--标签-->
+    <script type="text/javascript">
+        $('#tokenfield').tokenfield({
+            autocomplete: {
+                // source: ['red', 'blue', 'green', 'yellow', 'violet', 'brown', 'purple', 'black', 'white'],
+                // delay: 100
+            },
+            showAutocompleteOnFocus: true
+        })
+    </script>
+    <!--editormd-->
+    <script src="{{ url_for('static',filename='js/editormd.min.js') }}"></script>
+    <script>
+        var m_editormd;
+        $(function(){
+            m_editormd=editormd("editormd-md",
+                {
+                    width:'100%',
+                    height:'600px',
+                    syncScrolling:'single',
+                    path:"{{ url_for('static',filename='editormd/lib/') }}",
+                }
+            );
+        })
+    </script>
+</body>
+
+</html>

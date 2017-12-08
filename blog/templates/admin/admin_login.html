@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LW|Blog-后台管理-登录</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="{{ url_for('static',filename='css/signin.css') }}" rel="stylesheet">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+</head>
+
+<body>
+
+    <div class="container">
+            
+
+        <form class="form-signin" action="{{ url_for('login') }}" method="post" name="login">
+            {{ form.hidden_tag() }}
+            <h2 class="form-signin-heading">管理员登录</h2>
+            <label for="inputEmail" class="sr-only">用户名</label>
+            {{ form.username(type="text",class="form-control",id="inputEmail",placeholder="用户名") }}
+            <label for="inputPassword" class="sr-only">密码</label>
+            {{ form.password(type="password",id="inputPassword",class="form-control",placeholder="密码") }}
+            <div class="checkbox">
+                <label>
+                    {{ form.remember_me }} Remember me
+                </label>
+            </div>
+            <div>
+                {% with message=get_flashed_messages() %}
+                    {% if message %}
+                        <p>{{ message[0] }}</p>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            {{ form.submit(class="btn btn-lg btn-primary btn-block") }}
+        </form>
+
+    </div>
+    <!-- /container -->
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+
+</html>

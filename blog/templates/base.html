@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="LW-Blog - 在这里分享的成长经历">
+    <!--标题-->
+    {% block title %}
+    
+    {% endblock  %}
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css?v=0.0.0">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/pure/0.6.2/pure-min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <!--icon-->
+    <link rel="Shortcut Icon" type="image/x-icon" href="/static/favicon.ico">
+
+    <script>(function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-92780550-1', 'auto'); ga('send', 'pageview');
+    </script>
+</head>
+
+<body>
+    <div class="body_container">
+        <!--头部-->
+        <div id="header">
+            <div class="site-name">
+                <h1 class="hidden">LW-Blog</h1>
+                <a id="logo" href="{{ url_for('home') }}">成长</a>
+                <p class="description">重剑无锋，大巧不工！</p>
+            </div>
+            {% block navigation %}
+            
+            {% endblock  %}           
+        </div>
+        <!--内容部分-->
+        <div id="layout" class="pure-g">
+            <!--文章部分-->
+            {% block content %}
+
+            {% endblock %}
+            <!--页面右半部分-->
+            <div class="pure-u-1-4 hidden_mid_and_down">
+                <div id="sidebar">
+                    <!--搜索-->
+                    <!-- <div class="widget">
+                        <div class="search-form">
+                            <input id="local-search-input" placeholder="Search" type="text" name="q" results="0" />
+                            <div id="local-search-result"></div>
+                        </div>
+                    </div> -->
+                    <!--分类-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <i class="fa fa-folder-o"> 分类</i>
+                        </div>
+                        {% block category %} 
+                        
+                        {% endblock %}
+                    </div>
+                    <!--标签-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <i class="fa fa-star-o"> 标签</i>
+                        </div>
+                        {% block tags %} 
+                        
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a id="rocket" href="#top" class="show"></a>
+        <script type="text/javascript" src="/static/js/totop.js?v=0.0.0" async></script>
+        <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.js" async></script>
+        <script type="text/javascript" src="/static/js/fancybox.js?v=0.0.0" async></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.css">
+        <!-- <script type="text/javascript" src="/static/js/search.js?v=0.0.0"></script>
+        <script>var search_path = 'search.xml';
+            if (search_path.length == 0) {
+                search_path = 'search.xml';
+            }
+            var path = '/' + search_path;
+            searchFunc(path, 'local-search-input', 'local-search-result');
+        </script> -->
+        <script type="text/javascript" src="/static/js/codeblock-resizer.js?v=0.0.0"></script>
+        <script type="text/javascript" src="/static/js/smartresize.js?v=0.0.0"></script>
+    </div>
+</body>
+
+</html>
