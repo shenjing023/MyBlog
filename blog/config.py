@@ -20,5 +20,5 @@ class DevConfig(Config):
     """
     DEBUG=True
     # MySQL connection
-    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:123@127.0.0.1:3306/LWBlog2'
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:123@127.0.0.1:3306/LWBlog'
     SQLALCHEMY_TRACK_MODIFICATIONS=True
