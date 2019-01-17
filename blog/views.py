@@ -419,3 +419,10 @@ def login():
 @app.errorhandler
 def page_not_found(e):
     return render_template('404.html'),404
+
+@app.route('/admin/upimg',methods=['POST'])
+def upimg():
+    """
+    上传图片，返回图片url
+    """
+    pass 
