@@ -11,7 +11,9 @@ class ProdConfig(Config):
     """
     Production config class
     """
-    pass
+    # MySQL connection
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://test:test@localhost:3306/lwblog'
+    SQLALCHEMY_TRACK_MODIFICATIONS=True
 
 
 class DevConfig(Config):
@@ -20,5 +22,5 @@ class DevConfig(Config):
     """
     DEBUG=True
     # MySQL connection
-    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:123@127.0.0.1:3306/LWBlog'
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://test:test@localhost:3306/lwblog'
     SQLALCHEMY_TRACK_MODIFICATIONS=True

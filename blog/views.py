@@ -1,6 +1,7 @@
 from flask import render_template,jsonify,request,flash,redirect,url_for,abort
 from datetime import datetime
 from flask_login import login_user,login_required
+from werkzeug import secure_filename
 
 from main import app
 from models import db,User,Category,Post,Tag
@@ -8,6 +9,19 @@ from forms import PostForm,CategoryForm,LoginForm
 
 import random
 from uuid import uuid4
+import os
+import random
+
+# 限制上传文件类型
+ALLOWED_EXTENSIONS=set(['png','jpg','JPG','PNG','jpeg','JPEG','gif','GIF'])
+
+def allowed_file(filename):
+    return "." in filename and \
+            filename.rsplit('.',1)[1] in ALLOWED_EXTENSIONS
+
+# 图片存储路径
+base_dir=os.path.abspath(os.path.dirname(__file__))
+UPLOAD_FOLDER=os.path.join(base_dir,"static/uploads")
 
 def sidebar_data():
     """
@@ -79,8 +93,8 @@ def archives():
             }
             archive['posts'].append(post)
         archives.append(archive)
-        # 分类与标签
-        categories,tags=sidebar_data()
+    # 分类与标签
+    categories,tags=sidebar_data()
 
     return render_template(
                                 'archives.html',
@@ -420,9 +434,26 @@ def login():
 def page_not_found(e):
     return render_template('404.html'),404
 
-@app.route('/admin/upimg',methods=['POST'])
-def upimg():
+@app.route('/admin/upimg',methods=['POST','GET'])
+@login_required
+def img_upload():
     """
     上传图片，返回图片url
     """
-    pass 
+    if request.method=='GET':
+        return render_template('./admin/admin_img_upload.html')
+    elif request.method=='POST':
+        file=request.files['image']
+        if file and allowed_file(file.filename):
+            filename=secure_filename(file.filename)
+            # 重命名
+            now=datetime.now().strftime("%Y%m%d%H%M%S")
+            random_num=random.randint(0,10000)
+            ext=filename.rsplit('.',1)[1]
+            image_name=str(now)+str(random_num)+"."+ext
+            # 保存
+            image_path=os.path.join(UPLOAD_FOLDER,image_name)
+            file.save(image_path)
+            return jsonify({'response':'ok','msg':image_name})
+        else:
+            return jsonify({'response':'error','msg':"上传失败"})

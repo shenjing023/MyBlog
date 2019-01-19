@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LW|Blog-后台管理-图床</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.css">
+    <style>
+        .table-hover>tbody>tr:hover>td,
+        .table-hover>tbody>tr:hover>th {
+            background-color: #227d99;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">LW-Blog</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="{{ url_for('home') }}">博客</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('post_management') }}">文章管理</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('category_management') }}">分类管理</a>
+                    </li>
+                    <li class="active">
+                        <a href="{{ url_for('img_upload') }}">图床</a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container">
+
+        <!-- Main component for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <br>
+            <br>
+            <h1>图片上传</h1>
+            <form id="uploadform" method="post" enctype="multipart/form-data">
+                <input type="file" required id="image" name="image"/>
+                <br>
+                <input type="text" id="image_name" class="txt_input" name="name" style="width:500px;">
+            </form>
+            <br>
+            <br>
+        </div>
+    </div>
+    <!-- /container -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+    
+    <script type="text/javascript">
+      $('#image').change(function(){
+          var form_data=new FormData($('#uploadform')[0]);
+          $.ajax({
+              url: "{{ url_for('img_upload') }}",
+              type:"post",
+              data:form_data,
+              contentType:false,
+              processData:false,
+              success: function(msg){
+                  $("#image_name").val(msg.msg)
+              },
+              error:function(msg){
+                  $("#image_name").val(msg.msg)
+              },
+          });
+      })
+    </script>
+    </body>
+</html>
